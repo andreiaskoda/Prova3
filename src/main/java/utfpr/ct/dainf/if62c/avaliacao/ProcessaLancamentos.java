@@ -37,12 +37,23 @@ public class ProcessaLancamentos {
         Double valor;
         
         conta = Integer.parseInt(linha.substring(0, 6));
-        data = new Date(Integer.parseInt(linha.substring(6, 10)),
+        data = new Date(Integer.parseInt(linha.substring(6, 10)) - 1900,
                         Integer.parseInt(linha.substring(10, 12)),
                         Integer.parseInt(linha.substring(12, 14)));
         descricao = linha.substring(14, 74);
         valor = Double.parseDouble(linha.substring(74, 84)) + 
                 Double.parseDouble(linha.substring(84, 86))/100;
+        
+        if(descricao.length() < 60) {
+            int i = 0;
+            while(descricao.charAt(i) != ' ' && (descricao.charAt(i+1) != ' ' || 
+                    i+1 != 59)) {
+                i++;
+            }
+            
+            descricao = descricao.substring(0, i);
+        }
+        
         
         Lancamento lancamento = new Lancamento(conta, data, descricao, valor);
         
@@ -61,14 +72,16 @@ public class ProcessaLancamentos {
     
     public List<Lancamento> getLancamentos() throws IOException {
         List<Lancamento> lista = new ArrayList<>();
+        String linha;
+        linha = this.getNextLine();
         
         do {
-            lista.add(processaLinha(this.getNextLine()));
-        } while(this.getNextLine() != null);
+            lista.add(processaLinha(linha));
+            linha = this.getNextLine();
+        } while(linha != null);
         
         
         Collections.sort(lista, new LancamentoComparator());
-        
         
         return lista;
     }

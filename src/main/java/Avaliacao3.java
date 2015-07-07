@@ -33,34 +33,34 @@ public class Avaliacao3 {
                 System.out.print("Por favor, informe um valor numérico");
         }
         
-        while(Integer.parseInt(scanner.toString()) != 0) {
-            Integer numero = scanner.nextInt();
+        Integer numero = scanner.nextInt();
+        
+        while(numero != 0) {
             boolean achou = false;
             int indice;
-            
+
             for(int i = 0; i < lista.size(); i++) {
-                if(lista.get(i).getConta() == numero) {
+                int um = lista.get(i).getConta();
+                if(um == numero) {
                     achou = true;
                     break;
                 }
             }
             
             if(!achou)
-                System.out.print("Conta inexistente");
+                System.out.println("Conta inexistente");
             else
                 exibeLancamentosConta(lista, numero);
 
+            System.out.println("Digite o número da conta: ");
             
             while(!scanner.hasNextInt()) {
                 lixo = scanner.next();
                 System.out.print("Por favor, informe um valor numérico");
                 System.out.println("Digite o número da conta: ");
             }
-        }
-        
-        while(!scanner.hasNextInt()) {
-            lixo = scanner.next();
-            System.out.print("Por favor, informe um valor numérico");
+            
+            numero = scanner.nextInt();
         }
         
         
@@ -69,7 +69,8 @@ public class Avaliacao3 {
     public static void exibeLancamentosConta(List<Lancamento> lancamentos, Integer conta) {
   
         for(int i = 0; i < lancamentos.size(); i++) {
-            if(lancamentos.get(i).getConta() == conta) {
+            int um = lancamentos.get(i).getConta();
+                if(um == conta) {
                 System.out.println(lancamentos.get(i).toString());
             }
         }
